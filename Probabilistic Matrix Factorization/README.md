@@ -1,6 +1,6 @@
 Implementation of probabilistic matrix factorization (PMF) model. The program should be executed using the command,
 
-$ python hw4_PMF.py ratings.csv
+$ python PMF.py ratings.csv
 
 The csv files input into the code are formatted as follows:.
 
