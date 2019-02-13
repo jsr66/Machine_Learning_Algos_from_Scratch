@@ -13,23 +13,15 @@ from skinDetection import skinDetection
 
 epsilon, K, n_iter, skin_n_iter, skin_epsilon, skin_K, theta = parameters()
 
+print('Expectation Maximization Algorithm for GMMs')
 
-def im2double(im):
-    min_val = np.min(im.ravel())
-    max_val = np.max(im.ravel())
-    out = (im.astype('float') - min_val) / (max_val - min_val)
-    return out
-
-
-print('Question: Expectation Maximization Algorithm for GMMs')
-
-# load datasets
+#load datasets
 data = [[], [], []]
 data[0] = np.loadtxt('data1')
 data[1] = np.loadtxt('data2')
 data[2] = np.loadtxt('data3')
 
-# test getLogLikelihood
+#test getLogLikelihood
 print('(a) testing getLogLikelihood function')
 weights = [0.341398243018411, 0.367330235091507, 0.291271521890082]
 means = [
@@ -57,10 +49,10 @@ for idx in range(3):
     diff = loglikelihoods[idx] - ll
     print('LogLikelihood is {0}, should be {1}, difference: {2}\n'.format(ll, loglikelihoods[idx], diff))
 
-# test EStep
+#test EStep
 print('\n')
 print('(b) testing EStep function')
-# load gamma values
+#load gamma values
 testgamma = [[], [], []]
 testgamma[0] = np.loadtxt('gamma1')
 testgamma[1] = np.loadtxt('gamma2')
@@ -206,6 +198,13 @@ ndata = np.loadtxt('non-skin.dat')
 
 #img = im2double(misc.imread('faces.png'))
 import imageio
+
+def im2double(im):
+    min_val = np.min(im.ravel())
+    max_val = np.max(im.ravel())
+    out = (im.astype('float') - min_val) / (max_val - min_val)
+    return out
+
 img = im2double(imageio.imread('IMG_3064.png'))
 print("img.shape: " + str(img.shape))
 

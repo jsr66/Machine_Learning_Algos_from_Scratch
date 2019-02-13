@@ -1,33 +1,18 @@
 import numpy as np
-from getLogLikelihood import getLogLikelihood
-
-
-def Gaussian(x, mu, Sigma):
-    #mu: mean, 1xD array
-    #Sigma: covariance matrix, DxD array
-    #x: position, 1xD array
-    y = (1./(np.sqrt(2*np.pi)*np.linalg.det(Sigma))) * np.exp(-.5*np.dot(x - mu, np.dot(np.linalg.inv(Sigma), x - mu)))
-    return y
+from getLogLikelihood import getLogLikelihood, Gaussian
 
 
 def EStep(means, covariances, weights, X):
-    # Expectation step of the EM Algorithm
-    #
-    # INPUT:
-    # means          : Mean for each Gaussian KxD
-    # weights        : Weight vector 1xK for K Gaussians
-    # covariances    : Covariance matrices for each Gaussian DxDxK
-    # X              : Input data NxD
-    #
-    # N is number of data points
-    # D is the dimension of the data points
-    # K is number of Gaussians
-    #
-    # OUTPUT:
-    # logLikelihood  : Log-likelihood (a scalar).
-    # gamma          : NxK matrix of responsibilities for N datapoints and K Gaussians.
-
-    #####Insert your code here for subtask 6b#####
+    #INPUT
+    #means:     Mean for each Gaussian KxD
+    #covariances:    Covariance matrices for each Gaussian DxDxK
+    #weights:     Weight vector 1xK for K Gaussians
+    #X:     Input data NxD
+    #OUTPUT
+    #logLikelihood:    Log-likelihood (a scalar).
+    #gamma:   NxK matrix of responsibilities for N datapoints and K Gaussians.
+    #EXPLANATION:    Expectation step of the EM Algorithm. N is number of data points, D is the dimension of the data
+    #points, K is number of Gaussians
     N = X.shape[0]
     K = len(weights)
     gamma = np.zeros((N,K))
@@ -39,7 +24,7 @@ def EStep(means, covariances, weights, X):
             mu_k = means[k]
             Sigma_k = covariances[:, :, k]
             Sum_n += weights[k]*Gaussian(x_n, mu_k, Sigma_k)
-        #Compute responsibilities
+        #Compute responsibilities gamma
         for k in range(K):
             mu_k = means[k]
             Sigma_k = covariances[:, :, k]
