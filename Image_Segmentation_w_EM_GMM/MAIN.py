@@ -15,11 +15,15 @@ epsilon, K, n_iter, skin_n_iter, skin_epsilon, skin_K, theta = parameters()
 
 print('Expectation Maximization Algorithm for GMMs')
 
-#load datasets
+
+
+#load simulated datasets
 data = [[], [], []]
 data[0] = np.loadtxt('data1')
 data[1] = np.loadtxt('data2')
 data[2] = np.loadtxt('data3')
+
+
 
 #test getLogLikelihood
 print('(a) testing getLogLikelihood function')
@@ -49,6 +53,8 @@ for idx in range(3):
     diff = loglikelihoods[idx] - ll
     print('LogLikelihood is {0}, should be {1}, difference: {2}\n'.format(ll, loglikelihoods[idx], diff))
 
+
+
 #test EStep
 print('\n')
 print('(b) testing EStep function')
@@ -62,12 +68,14 @@ for idx in range(3):
     absdiff = testgamma[idx] - gamma
     print('Sum of difference of gammas: {0}\n'.format(np.sum(absdiff)))
 
-# test MStep
+
+
+#test MStep
 print('\n')
 print('(c) testing MStep function')
-# load gamma values
+#load gamma values
 testparams = np.ndarray((3, 3), dtype=object)
-# means
+#means
 testparams[0, 0] = [
      [3.018041988488699,  3.101046000178649],
      [0.198328683921772, -0.019449541135746],
@@ -83,11 +91,11 @@ testparams[0, 2] = [
      [0.121144018117729, -0.040037587868608],
      [-3.054802211026562,  1.969195200268656]
 ]
-# weights
+#weights
 testparams[1, 0] = [0.339408153353897, 0.370303288436004, 0.290288558210099]
 testparams[1, 1] = [0.336051939551412, 0.432073585981995, 0.231874474466593]
 testparams[1, 2] = [0.257806471569113, 0.379609598797200, 0.362583929633687]
-# covariances
+#covariances
 testparams[2, 0] = np.ndarray((2, 2, 3))
 testparams[2, 0][:, :, 0] = [
      [0.928530520617187, -0.186093601749430],
@@ -137,7 +145,9 @@ for idx in range(3):
     print('Sum of difference of weights:     {0}\n'.format(np.sum(absweightdiff)))
     print('Sum of difference of covariances: {0}\n'.format(np.sum(abscovdiff)))
 
-# test regularization
+
+
+#test regularization
 print('\n')
 print('(c) testing regularization of covariances')
 regularized_cov = np.ndarray((2, 2, 3))
@@ -159,44 +169,45 @@ for idx in range(3):
     print('Sum of difference of covariances: {0}\n'.format(np.sum(absdiff)))
 
 
-# compute GMM on all 3 datasets
+
+#compute GMM on all 3 datasets
 print('\n')
 print('(f) evaluating EM for GMM on all datasets')
 for idx in range(3):
     print('evaluating on dataset {0}\n'.format(idx+1))
 
-    # compute GMM
+    #compute GMM
     weights, means, covariances = estGaussMixEM(data[idx], K, n_iter, epsilon)
 
-    # plot result
+    #plot result
     plt.subplot()
     plotModes(np.transpose(means), covariances, data[idx])
     plt.title('Data {0}'.format(idx+1))
     plt.show()
 
 
-# uncomment following lines to generate the result
-#for different number of modes k plot the log likelihood for data3
+
+#for different number of modes k plot the log likelihood for data1, data2, or data3 - indicated respectively by indices 0, 1, 2
 num = 14
 logLikelihood = np.zeros(num)
+data_set_number = 2 #0, 1, or 2
 for k in range(num):
-    # compute GMM
-    weights, means, covariances = estGaussMixEM(data[2], k+1, n_iter, epsilon)
-    logLikelihood[k] = getLogLikelihood(means, weights, covariances, data[2])
+    #compute GMM
+    weights, means, covariances = estGaussMixEM(data[data_set_number], k+1, n_iter, epsilon)
+    logLikelihood[k] = getLogLikelihood(means, weights, covariances, data[data_set_number])
 
-# plot result
+#plot result
 plt.subplot()
 plt.plot(range(num),logLikelihood)
 plt.title('Loglikelihood for different number of k on Data 3')
 plt.show()
 
-# skin detection
+#skin detection
 print('\n')
 print('(g) performing skin detection with GMMs')
 sdata = np.loadtxt('skin.dat')
 ndata = np.loadtxt('non-skin.dat')
 
-#img = im2double(misc.imread('faces.png'))
 import imageio
 
 def im2double(im):
@@ -206,25 +217,10 @@ def im2double(im):
     return out
 
 img = im2double(imageio.imread('IMG_3064.png'))
+#img = im2double(misc.imread('faces.png'))
 print("img.shape: " + str(img.shape))
 
 skin = skinDetection(ndata, sdata, skin_K, skin_n_iter, skin_epsilon, theta, img)
 plt.imshow(skin)
 plt.show()
 misc.imsave('skin_detection.png', skin)
-
-
-'''
-# skin detection
-print('\n')
-print('(g) performing skin detection with GMMs')
-sdata = np.loadtxt('skin.dat')
-ndata = np.loadtxt('non-skin.dat')
-
-img = im2double(misc.imread('faces.png'))
-
-skin = skinDetection(ndata, sdata, skin_K, skin_n_iter, skin_epsilon, theta, img)
-plt.imshow(skin)
-plt.show()
-misc.imsave('skin_detection.png', skin)
-'''

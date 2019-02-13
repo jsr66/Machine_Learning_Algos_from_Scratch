@@ -2,32 +2,26 @@ import numpy as np
 from getLogLikelihood import getLogLikelihood
 
 def MStep(gamma, X):
-    # Maximization step of the EM Algorithm
-    #
-    # INPUT:
-    # gamma          : NxK matrix of responsibilities for N datapoints and K Gaussians.
-    # X              : Input data (NxD matrix for N datapoints of dimension D).
-    #
-    # N is number of data points
-    # D is the dimension of the data points
-    # K is number of Gaussians
-    #
-    # OUTPUT:
-    # logLikelihood  : Log-likelihood (a scalar).
-    # means          : Mean for each gaussian (KxD).
-    # weights        : Vector of weights of each gaussian (1xK).
-    # covariances    : Covariance matrices for each component(DxDxK).
+    #INPUT
+    #gamma:     NxK matrix of responsibilities for N datapoints and K Gaussians.
+    #X:     Input data (NxD matrix for N datapoints of dimension D).
+    #OUTPUT
+    #logLikelihood:     Log-likelihood (a scalar).
+    #means:     Mean for each gaussian (KxD).
+    #weights:     Vector of weights of each gaussian (1xK).
+    #covariances:     Covariance matrices for each component(DxDxK).
+    #EXPLANATION:     Maximization step of the EM Algorithm. N is number of data points, D the dimension of the data
+    #points, K the number of Gaussians.
 
-    #####Insert your code here for subtask 6c#####
     N = gamma.shape[0] #number of examples
     K = gamma.shape[1] #number of classes
     D = X.shape[1] #number of features
     
-    N_class = np.zeros((K)) 
+    N_class = np.zeros((K)) #average number per class, initialize to zeros.
     
-    weights = np.zeros((K))
-    means = np.zeros((K, D))
-    covariances = np.zeros((D, D, K))
+    weights = np.zeros((K)) #weights for different classes. initialize to zeros.
+    means = np.zeros((K, D)) #means for different classes. initialize to zeros.
+    covariances = np.zeros((D, D, K)) #covariances for different classes, initialize to zeros.
     
     #Set class weights
     for k in range(K):

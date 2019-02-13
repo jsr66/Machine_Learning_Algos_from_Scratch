@@ -9,26 +9,22 @@ from numpy.linalg import eig
 
 
 def regularize_cov(covariance, epsilon):
-    # regularize a covariance matrix, by enforcing a minimum
-    # value on its singular values. Explanation see exercise sheet.
-    #
-    # INPUT:
-    #  covariance: matrix
-    #  epsilon:    minimum value for singular values
-    #
-    # OUTPUT:
-    # regularized_cov: reconstructed matrix
-
-    #####Insert your code here for subtask 6d#####
+    #INPUT:
+    #covariance:     DxD matrix
+    #epsilon:     regulator, minimum value for singular values
+    #OUTPUT:
+    #regularized_cov:     reconstructed matrix
+    #EXPLANATION: regularize a covariance matrix, by enforcing a minimum value on its eigenvalues. Explanation
+    #see exercise sheet.
 
     values, vectors = eig(covariance)
 
-    Q = vectors
-    L = diag(values)
-    Q_inv = inv(Q)
+    Q = vectors #diagonalization transformation
+    L = diag(values) #diagonal matrix
+    Q_inv = inv(Q) #inverse of diagonalization transformation
 
-    L_reg = L + epsilon * L
+    L_reg = L + epsilon * L #add regularization to diagonalized covariance matrix
 
-    regularized_cov = Q.dot(L_reg).dot(Q_inv)
+    regularized_cov = Q.dot(L_reg).dot(Q_inv) #undo diagonalization transformation
 
     return regularized_cov

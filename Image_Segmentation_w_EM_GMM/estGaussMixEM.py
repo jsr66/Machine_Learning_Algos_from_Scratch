@@ -7,19 +7,15 @@ from regularize_cov import regularize_cov
 
 
 def estGaussMixEM(data, K, n_iters, epsilon):
-    # EM algorithm for estimation gaussian mixture mode
-    #
-    # INPUT:
-    # data           : input data, N observations, D dimensional
-    # K              : number of mixture components (modes)
-    #
-    # OUTPUT:
-    # weights        : mixture weights - P(j) from lecture
-    # means          : means of gaussians
-    # covariances    : covariancesariance matrices of gaussians
-    # logLikelihood  : log-likelihood of the data given the model
+    #INPUT
+    #data:     input data, N observations, D dimensional
+    #K:     number of mixture components (modes)
+    #OUTPUT
+    #weights:     mixture weights
+    #means:     means of gaussians
+    #covariances:     covariancesariance matrices of gaussians
+    #EXPLANATION: EM algorithm for estimation gaussian mixture mode
 
-    #####Insert your code here for subtask 6e#####
     D = data.shape[1]
 
     #Initialize weights
