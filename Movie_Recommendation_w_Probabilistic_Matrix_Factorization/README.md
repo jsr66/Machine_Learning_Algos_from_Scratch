@@ -1,2 +1,2 @@
 
-This project builds and trains "from scratch" a movie recommendation system using probabilistic matrix factorization (PMF) on user data from the MovieLens dataset. 
+This project builds a movie recommendation system "from scratch" using probabilistic matrix factorization (PMF), trained on user data from the MovieLens dataset. 
